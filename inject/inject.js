@@ -93,16 +93,21 @@ function senderInitiate(start_btn) {
 
         if (ndrafted != parseInt(document.getElementById('drafted_mails').value)) {
             alert('Check the entered values or opened cases again!');
+            console.log("ndrafted="+ndrafted);
         } else {
             start_btn.innerHTML = 'Stop';
             workingAnimation(true);
             let sent = ndrafted - 1;
+            console.log("Value of sent "+sent);
             universalInterval = setInterval(() => { //Interval sender
+                console.log("Inside Timer");
                 let currentTime = new Date();
-                if (sent <= 0) {   /// This will stop the interval timer if all cases are sent;
+                if (sent < 0) {   /// This will stop the interval timer if all cases are sent;
                     timeOut(start_btn);
                 } else {
+                    console.log('Preparing to send email');
                     drafted[sent].click();  //Sent and close the case
+                    console.log('Mail sent');
                     setTimeout(() => {
                         document.getElementsByTagName('oj-button')[0].click();
                     }, 700);
