@@ -1,0 +1,74 @@
+#content{
+    position: fixed;
+    top: 10px;
+    left: 340px;
+    display: flex;
+    width: 450px;
+    justify-content: space-between;
+    color: rgb(112, 110, 110);
+}
+#content input[name=drafted]{
+    margin-top: 4px;
+    outline: none;
+    width: 100px;
+    height: fit-content;
+    border-radius: 20px;
+    font-size: 14px;
+}
+#content .time_logout input[name=interval]{
+    width: 40px;
+}
+#content input[type=number]{
+    background-color: dimgray;
+    color: rgba(255, 255, 255, 0.699);
+}
+/*   Style for Button  */
+#senderMachine{
+    padding: 3px 22px;
+    height: 20px;
+    border: 1px solid black;
+    user-select: none;
+    font-weight: bold;
+    background-color:dimgray;
+    color: rgba(255, 255, 255, 0.699);
+    cursor: pointer;
+    box-shadow: 0 1px 2px gray;
+}
+#senderMachine:active{
+    box-shadow: none;
+}
+#workingAnim{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    transform: translate(-50%,-50%);
+    height: 22px;
+}
+#workingAnim #outer{
+    position: relative;
+    width: inherit;
+    height: inherit;
+}
+#workingAnim #outer::before{
+    content: "Sending in Progress...";
+    font-size: 24px;
+}
+@keyframes leftRight {
+    0%, 100%{
+        left: 0%;
+    }
+    50%{
+        left: 100%;
+    }
+}
+#workingAnim #outer div{
+    position: absolute;
+    border-radius: 50%;
+    left: 0px;
+    width: 20px; 
+    height: inherit;
+    background-color: grey;
+    animation: leftRight 1400ms ease-in infinite;
+}
