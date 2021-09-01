@@ -44,6 +44,7 @@ function timeOut(btn) {
     clearInterval(universalInterval);
     btn.innerHTML = 'Start';
     universalInterval = null;
+    workingAnimation(false);
 }
 
 function toastMessage(msg, time_in_seconds) {
@@ -69,10 +70,11 @@ function check_logout(shift_time,currentTime) {
     if (shift_time.getHours() == currentTime.getHours()) {
         if (shift_time.getMinutes() >= 30) {
             log_out();
-            setTimeout(()=>{
-                _system.shutDown();
-            },3000);
+            console.log('Logout Performed');
+            //A Shutdown function need to be added in it
         }
+    }else{
+        console.log('Currently Logged In');
     }
 }
 
@@ -81,9 +83,10 @@ function senderInitiate(start_btn) {
         let minutes = parseInt(document.getElementById('agent_defined_interval').value);
         let drafted = document.getElementsByClassName('Send&');
         let ndrafted = drafted.length;
-        let shift_end_time = new Date();
+        let shift_end_time = null;
         if(document.getElementById('auto_logout').checked){
-            (document.getElementById('five_thirty'))? shift_end_time.setHours(5,30):shift_end_time.setHours(7,30);
+            shift_end_time = new Date();
+            (document.getElementById('five_thirty'))? shift_end_time.setHours(5,30,0,0):shift_end_time.setHours(7,30,0,0);
         }else{
             toastMessage("Auto Logout not enabled",3);
         }
@@ -107,12 +110,13 @@ function senderInitiate(start_btn) {
                     sent--;
                     document.getElementById('drafted_mails').value = sent + 1;
                 }
+                if(shift_end_time!=null){
                 check_logout(shift_end_time,currentTime);
+                }
             }, minutes * 60 * 1000);
         }
     } else {
         timeOut(start_btn);
-        workingAnimation(false);
     }
 }
 
