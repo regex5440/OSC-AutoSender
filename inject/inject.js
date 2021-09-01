@@ -91,7 +91,7 @@ function senderInitiate(start_btn) {
             toastMessage("Auto Logout not enabled",3);
         }
 
-        if (ndrafted != parseInt(document.getElementById('drafted_mails').value) || ndrafted < 1) {
+        if (ndrafted != parseInt(document.getElementById('drafted_mails').value)) {
             alert('Check the entered values or opened cases again!');
         } else {
             start_btn.innerHTML = 'Stop';
