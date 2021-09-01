@@ -29,8 +29,8 @@ const bodyElement = document.getElementsByTagName('body')[0];
 bodyElement.appendChild(panel);
 
 //Animation Element
-const animElement = document.createElement('div');animElement.id="workingAnim";
-const outerElement = document.createElement('div');outerElement.id="outer";
+const animElement = document.createElement('div'); animElement.id = "workingAnim";
+const outerElement = document.createElement('div'); outerElement.id = "outer";
 const internalDiv = document.createElement('div');
 outerElement.appendChild(internalDiv);
 animElement.appendChild(outerElement);
@@ -58,14 +58,14 @@ function toastMessage(msg, time_in_seconds) {
     }, time_in_seconds * 1000);
 }
 
-function workingAnimation(status){
-    (status)?animElement.style.display="block":animElement.style.display="none";
+function workingAnimation(status) {
+    (status) ? animElement.style.display = "block" : animElement.style.display = "none";
 }
 
 function log_out() {
     document.getElementById('ui-id-2012').click(); ///CLick on logout button
 }
-function check_logout(shift_time,currentTime) {
+function check_logout(shift_time, currentTime) {
     //Check if its time for logout
     if (shift_time.getHours() == currentTime.getHours()) {
         if (shift_time.getMinutes() >= 30) {
@@ -73,7 +73,7 @@ function check_logout(shift_time,currentTime) {
             console.log('Logout Performed');
             //A Shutdown function need to be added in it
         }
-    }else{
+    } else {
         console.log('Currently Logged In');
     }
 }
@@ -84,39 +84,36 @@ function senderInitiate(start_btn) {
         let drafted = document.getElementsByClassName('Send&');
         let ndrafted = drafted.length;
         let shift_end_time = null;
-        if(document.getElementById('auto_logout').checked){
+        if (document.getElementById('auto_logout').checked) {
             shift_end_time = new Date();
-            (document.getElementById('five_thirty'))? shift_end_time.setHours(5,30,0,0):shift_end_time.setHours(7,30,0,0);
-        }else{
-            toastMessage("Auto Logout not enabled",3);
+            (document.getElementById('five_thirty')) ? shift_end_time.setHours(5, 30, 0, 0) : shift_end_time.setHours(7, 30, 0, 0);
+        } else {
+            toastMessage("Auto Logout not enabled", 3);
         }
 
         if (ndrafted != parseInt(document.getElementById('drafted_mails').value)) {
             alert('Check the entered values or opened cases again!');
-            console.log("ndrafted="+ndrafted);
+            console.log("ndrafted=" + ndrafted);
         } else {
             start_btn.innerHTML = 'Stop';
             workingAnimation(true);
             let sent = ndrafted - 1;
-            console.log("Value of sent "+sent);
+            console.log("Value of sent " + sent);
             universalInterval = setInterval(() => { //Interval sender
                 console.log("Inside Timer");
                 let currentTime = new Date();
+                drafted[sent].click();  //Sent and close the case
+                setTimeout(() => {
+                    document.getElementsByTagName('oj-button')[0].click();
+                }, 2000);
+                toastMessage(`Last Email was sent at ${currentTime.getHours()}:${currentTime.getMinutes()}`, 20);  //Show a pop up message with last email sent time
+                sent--;
+                document.getElementById('drafted_mails').value = sent + 1;
                 if (sent < 0) {   /// This will stop the interval timer if all cases are sent;
                     timeOut(start_btn);
-                } else {
-                    console.log('Preparing to send email');
-                    drafted[sent].click();  //Sent and close the case
-                    console.log('Mail sent');
-                    setTimeout(() => {
-                        document.getElementsByTagName('oj-button')[0].click();
-                    }, 700);
-                    toastMessage(`Last Email was sent at ${currentTime.getHours()}:${currentTime.getMinutes()}`,20);  //Show a pop up message with last email sent time
-                    sent--;
-                    document.getElementById('drafted_mails').value = sent + 1;
                 }
-                if(shift_end_time!=null){
-                check_logout(shift_end_time,currentTime);
+                if (shift_end_time != null) {
+                    check_logout(shift_end_time, currentTime);
                 }
             }, minutes * 60 * 1000);
         }
@@ -125,10 +122,10 @@ function senderInitiate(start_btn) {
     }
 }
 
-setTimeout(() => {      
+setTimeout(() => {
     //attach onclick listener with delay of 4 secs, so all elements are loaded
     var start_machine_btn = document.getElementById('senderMachine');
-    start_machine_btn.addEventListener('click', ()=>{senderInitiate(start_machine_btn)});
+    start_machine_btn.addEventListener('click', () => { senderInitiate(start_machine_btn); });
 
 }, 4000);
 
