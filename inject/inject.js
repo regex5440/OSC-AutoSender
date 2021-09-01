@@ -105,7 +105,7 @@ function senderInitiate(start_btn) {
                 drafted[sent].click();  //Sent and close the case
                 setTimeout(() => {
                     document.getElementsByTagName('oj-button')[0].click();
-                }, 7000);
+                }, 4500);
                 toastMessage(`Last Email was sent at ${currentTime.getHours()}:${currentTime.getMinutes()}`, 20);  //Show a pop up message with last email sent time
                 sent--;
                 document.getElementById('drafted_mails').value = sent + 1;
