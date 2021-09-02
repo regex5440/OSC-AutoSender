@@ -63,7 +63,7 @@ function workingAnimation(status) {
 }
 
 function log_out() {
-    document.getElementById('ui-id-2012').click(); ///CLick on logout button
+    document.querySelectorAll('[title="Sign Out"]')[0].click(); ///CLick on logout button
 }
 function check_logout(shift_time, currentTime) {
     //Check if its time for logout
@@ -126,6 +126,9 @@ setTimeout(() => {
     //attach onclick listener with delay of 4 secs, so all elements are loaded
     var start_machine_btn = document.getElementById('senderMachine');
     start_machine_btn.addEventListener('click', () => { senderInitiate(start_machine_btn); });
+
+    
+    document.getElementById('logo').addEventListener('click',log_out);
 
 }, 4000);
 
