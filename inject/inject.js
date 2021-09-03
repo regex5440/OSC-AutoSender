@@ -11,7 +11,12 @@ panel.innerHTML = `
                 <span>Time Interval:</span>
                 <input type="number" name="interval" id="agent_defined_interval" placeholder="1" value=1 min=1>
                 <span>min(s)</span>
-            </label><br/>
+            </label>
+        </div>
+        <div id="senderMachine">Initiate</div>
+`;
+/* Auto logout structure
+<br/>
         <label for="five_thirty">
             <input type="radio" name="shift_logout" id="five_thirty" value="5:30" checked>5:30AM
         </label>
@@ -22,9 +27,7 @@ panel.innerHTML = `
                 <input type="checkbox" name="logout" id="auto_logout">
                 <span>Auto Logout</span>
             </label>
-        </div>
-        <div id="senderMachine">Initiate</div>
-`;
+*/
 const bodyElement = document.getElementsByTagName('body')[0];
 bodyElement.appendChild(panel);
 
@@ -62,15 +65,31 @@ function workingAnimation(status) {
     (status) ? animElement.style.display = "block" : animElement.style.display = "none";
 }
 
-function log_out() {
-    document.querySelectorAll('[title="Sign Out"]')[0].click(); ///CLick on logout button
+function log_out() { //This function is inaccessible
+    console.log("Clicked on Logo");
+    document.getElementById('userMenuIcon').click();
+    setTimeout(() => {
+        let myelef = document.getElementsByTagName('oj-menu')[0].getElementsByTagName('oj-option')[2];
+        for(let i=1;i<=2;i++){
+            fireKey(myelef.documentElement);
+        }
+        //myelef.setAttribute('tabindex',"-2");
+        myelef.click();
+       /* myelef.parentElement.getElementsByTagName('oj-option')[0].className = "oj-complete oj-menu-item";
+        myelef.className += ' oj-focus oj-focus-highlight';
+        setTimeout(() => {
+            myelef.getElementsByTagName('a')[0].focus();
+            myelef.click();
+        }, 1000);*/
+    }, 2000);
 }
-function check_logout(shift_time, currentTime) {
+function check_logout(shift_time, currentTime, bekar) {  //Inaccessible
     //Check if its time for logout
     if (shift_time.getHours() == currentTime.getHours()) {
-        if (shift_time.getMinutes() >= 30) {
+        if (shift_time.getMinutes() <= currentTime.getMinutes()) {
+            clearInterval(bekar);
             log_out();
-            console.log('Logout Performed');
+            console.log('Logged Out!');
             //A Shutdown function need to be added in it
         }
     } else {
@@ -83,37 +102,34 @@ function senderInitiate(start_btn) {
         let minutes = parseInt(document.getElementById('agent_defined_interval').value);
         let drafted = document.getElementsByClassName('Send&');
         let ndrafted = drafted.length;
-        let shift_end_time = null;
-        if (document.getElementById('auto_logout').checked) {
-            shift_end_time = new Date();
+        let currentTime = new Date(); setInterval(() => { currentTime = new Date(); }, 1000);  // Update current time in every second
+        /*              Auto Logout functions
+        let shift_end_time = new Date();
+        let isLogOutEnabled = document.getElementById('auto_logout').checked;  //Get data from logout button
+        if (isLogOutEnabled) {
             (document.getElementById('five_thirty')) ? shift_end_time.setHours(5, 30, 0, 0) : shift_end_time.setHours(7, 30, 0, 0);
+            toastMessage(`Auto Logout enabled for ${shift_end_time.getHours()}:${shift_end_time.getMinutes()}`, 4);
+            let bekar = setInterval(() => { check_logout(shift_end_time, currentTime, bekar); }, 4 * 60 * 1000); //Check logout time every 4 minutes.
         } else {
             toastMessage("Auto Logout not enabled", 3);
         }
-
-        if (ndrafted != parseInt(document.getElementById('drafted_mails').value)) {
-            alert('Check the entered values or opened cases again!');
-            console.log("ndrafted=" + ndrafted);
+        */
+        if (ndrafted != parseInt(document.getElementById('drafted_mails').value) || ndrafted <= 0) {
+            alert('Check the entered values or opened cases again!\nNo cases will be autosend');
         } else {
             start_btn.innerHTML = 'Stop';
             workingAnimation(true);
             let sent = ndrafted - 1;
-            console.log("Value of sent " + sent);
             universalInterval = setInterval(() => { //Interval sender
-                console.log("Inside Timer");
-                let currentTime = new Date();
                 drafted[sent].click();  //Sent and close the case
                 setTimeout(() => {
                     document.getElementsByTagName('oj-button')[0].click();
+                    toastMessage(`Last Email was sent at ${currentTime.getHours()}:${currentTime.getMinutes()}`, 25);  //Show a pop up message with last email sent time
                 }, 4500);
-                toastMessage(`Last Email was sent at ${currentTime.getHours()}:${currentTime.getMinutes()}`, 20);  //Show a pop up message with last email sent time
                 sent--;
                 document.getElementById('drafted_mails').value = sent + 1;
                 if (sent < 0) {   /// This will stop the interval timer if all cases are sent;
                     timeOut(start_btn);
-                }
-                if (shift_end_time != null) {
-                    check_logout(shift_end_time, currentTime);
                 }
             }, minutes * 60 * 1000);
         }
@@ -126,9 +142,10 @@ setTimeout(() => {
     //attach onclick listener with delay of 4 secs, so all elements are loaded
     var start_machine_btn = document.getElementById('senderMachine');
     start_machine_btn.addEventListener('click', () => { senderInitiate(start_machine_btn); });
-
-    
-    document.getElementById('logo').addEventListener('click',log_out);
-
 }, 4000);
 
+/*
+setTimeout(() => {
+    document.getElementById('logo').addEventListener('click', log_out);
+}, 7000);
+*/
