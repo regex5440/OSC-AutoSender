@@ -11,6 +11,11 @@
             "matches": ["https://support-en.wd.com/AgentWeb/*"],
             "css": ["inject/inject.css"],
             "js": ["inject/inject.js"]
+        },
+        {
+            "matches": ["https://support-en.wd.com/AgentWeb/api/contextmanager/*"],
+            "css": ["inject/inject.css"],
+            "js": ["inject/rotate.js"]
         }
     ],
     "browser_action":{

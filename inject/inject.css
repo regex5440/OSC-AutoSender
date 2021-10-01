@@ -72,3 +72,20 @@
     background-color: grey;
     animation: leftRight 1400ms ease-in infinite;
 }
+
+
+/* Attachment Toolbar*/
+#rotateBtn{
+    position: fixed;
+    top: 20px;
+    left: 30px;
+    font-size: 24px;
+    color: grey;
+}
+#rotateBtn *{
+    display: inline-block;
+    margin-left: 7px;
+}
+#rotateBtn button{
+    padding: 6px 13px;
+}
