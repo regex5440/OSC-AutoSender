@@ -2,7 +2,6 @@
 //regEx5440@GitHub
 //OSC AutoSender 
 //License: mit
-
 var panel = document.createElement('div'); panel.id = "content";
 panel.innerHTML = `
 <input type="number" name="drafted" id="drafted_mails" placeholder="Drafted Cases" min=1 title="Number of cases that are drafted and opened">
@@ -30,6 +29,11 @@ panel.innerHTML = `
 */
 const bodyElement = document.getElementsByTagName('body')[0];
 bodyElement.appendChild(panel);
+
+document.addEventListener('custom',e=>{
+    var data = e.detail;
+    alert(data);
+});
 
 //Animation Element
 const animElement = document.createElement('div'); animElement.id = "workingAnim";
@@ -143,6 +147,15 @@ setTimeout(() => {
     var start_machine_btn = document.getElementById('senderMachine');
     start_machine_btn.addEventListener('click', () => { senderInitiate(start_machine_btn); });
 }, 4000);
+var showToolbar = false;
+panel.style.visibility=(showToolbar)?"visible":"hidden";
+setTimeout(()=>{
+    var speakerbtn = document.getElementById('chatMediaBar_soundBtn');
+    speakerbtn.onclick = ()=>{
+        showToolbar=(showToolbar)?false:true;
+        panel.style.visibility=(showToolbar)?"visible":"hidden";
+    }
+},10000);
 
 /*
 setTimeout(() => {
